@@ -1,0 +1,521 @@
+''**********************************************************
+'Beginners Guide to just about everything
+'Created By Kevin Pfister
+'***********************************************************
+
+
+'This is a complete beginners guide to visual basic. I have compiled this from my collection of source code. But if you feel in any way that the source code mentioned here is like yours then please comment so I can include you in my credits went I next update this.
+'This guide will start with some of the basics of visual basic and will progress to more advanced information later on.
+
+
+'***********************************************************
+'What is in this guide
+
+'1.0	Basics
+'1.1		Basic FAQS about Forms
+'1.2		Basic Coding
+'2.0	Files
+'2.1		Opening and Saving text Files
+'2.2		Other File Functions
+'2.3		Cut, Copy and Paste Functions
+'2.4		Loading your app with options
+'3.0	Maths
+'3.1		Variables
+'3.2		Sorting
+'3.3		Information on encrypting
+'4.0	Ideas about registering
+'5.0	Api Calls
+'6.0	Next Update
+
+'***********************************************************
+
+
+
+'1.1	Basic FAQS about Forms
+
+'***********************************************************
+'The Form is not centred when run.
+'***********************************************************
+'The following action will correct this and will make your program be in the centre in any Resolution
+'1.     Right click the form you want to change in the form layout option.
+'2.     Go into Startup Position or Press 'Shift-S’
+'3.     Choose Centre Screen or Press 'Shift-S’ again
+
+'***********************************************************
+'How do I keep the Controls I just placed from Moving?
+'***********************************************************
+'The following actions will correct this by locking the controls
+'1.     Click the Format Menu option or Press 'Alt-O’
+'2.     Click the Lock Controls option or Press 'Shift-L’
+'To unlock the controls repeat the action
+
+'***********************************************************
+'How do I change the properties of the App, Version etc...
+'***********************************************************
+'These steps will allow you to change the properties of the App
+'1.     Click the Project Menu option or press 'Alt-P’
+'2.     Click the 'Project1’ Properties (Project1 is the name of the Project), or press 'Shift E’
+'3.     In the First Dialog you Can change the:
+'               Startup Object:
+'               Project Name:
+'               Help File Name & Project Help Context ID:
+'               Project Description
+'4.     Press The Make Tab
+'5.     In this dialog you can:
+'               Change the Version Number
+'               Change the Application Title & Icon
+'               Change the Command line Arguments
+'               Change the Conditional Compilation Arguments
+'6.     In the version Information Frame you can:
+'               Add Comments
+'               Add the Companies Name
+'               Add the File Description
+'               Add Legal Copyright information
+'               Add a legal trademark
+'               Add the Product Name
+                
+'***********************************************************
+'How do I add a horizontal splitter to my menu?
+'***********************************************************
+'This will add the splitter to your menu
+'1.     Press Ctrl-E to again access to the menu editor
+'2.     Where you want the splitter insert a new line
+'3.     In the caption option type "-"(Without the quotes)
+'4.	  Press Ok
+
+'***********************************************************
+'I have a problem, what shall I do?
+'***********************************************************
+'Go to Planet Source Code of course!
+
+
+
+'1.2	Basic Coding
+
+'Before any code is shown I want to talk about Styles of writing code, most different companies have there own style of coding but I believe this is the best style of coding:
+
+'The Hungarian Naming Style
+'Hungarian Naming is a style widely used in the programming industry, it is called Hungarian Naming because most of the prefixes sound foreign and also its creator was from Hungary
+
+'It works by placing prefixes before the variables or Controls below are a few samples:
+
+        Frmtest
+        CmdGo
+        Lblabout
+        chkok
+
+'Some of the prefixes are as follows (In alphabetical order):
+
+'	cbo	=	Combo box
+'	chk	=	Check Box
+'	cmd	=	Command Button
+'	dir	=	Directory list box
+'	drv	=	Drive list box
+'	fil	=	File list box
+'	fra	=	Frame
+'	frm	=	Form
+'	grd	=	Grid
+'	hsb	=	Horizontal Scrollbar
+'	img	=	Image
+'	lbl	=	Label
+'	lin	=	Line
+'	lst	=	List box
+'	mnu	=	Menu
+'	mod	=	Module
+'	ole	=	OLE
+'	opt	=	Option button
+'	pic	=	Picture box
+'	res	=	Resource
+'	shp	=	Shape
+'	tmr	=	Timer
+'	txt	=	Text Box
+'	typ	=	User-Defined Type
+'	vsb	=	Vertical Scrollbar
+
+
+'More of this can be found of separate articles on this site, but i was unable to find it when writing this, if you know who he is please comment so i can include you in the credits when I update this.
+
+
+
+'2.1	Opening and Saving Text Files
+
+'One of the most important parts of Visual Basic is that of Opening and Saving Files, in this chapter I will show you how to do some of the basic file opening and saving routines:
+
+'***********************************************************
+'Opening a Text File
+'***********************************************************
+
+'To open a text file, include this in your code:
+        
+        F = FreeFile    'Assigns a Free File Number
+        FileName$ = "C:\..."    'Place the Filename Here
+
+        Open FileName$ For Input As #F  'Opens the File to read from
+                Txtoutput.Text = Input$(LOF(F), F) 'Places the contents of the file into the Textbox(Txtoutput)
+        Close #F        'Close the File
+        
+'***********************************************************
+'Saving to a Text File
+'***********************************************************
+
+'To save to a text file, include this in your code:
+
+        F = FreeFile    'Assigns a Free File Number
+        FileName$ "C:\..."      'Place the Filename Here
+        Open FileName$ For Output As #F 'Opens the File to write to
+                Print #F, Txtinput.Text 'Writes the contents of the textbox(Txtinput) to the file
+        Close #F        'Close the File
+
+'These routines are the basic form of writing to a file but they do do check if the file exists or not before the routine starts, the two routines below check the file and display a comment when there is an error.
+
+'***********************************************************
+'Improved Opening a Text File
+'***********************************************************
+
+'This is the improved version of Opening a Text File, Please place this in your Code
+
+        F = FreeFile    'Assigns a Free File Number
+        FileName$ = "C:\..."    'Place the Filename Here
+        
+        'This is the improved bit
+        Open FileName$ For Input As #F
+                If LOF(F) = 0 Then
+                        MsgBox ("No File")
+                        Close #F
+                        Kill FileName$
+                Else
+                        Txtoutput.txt = Input$(LOF(F), F)
+                        Close #F
+                End If
+
+'***********************************************************
+'Improved Saving to a Text File
+'***********************************************************
+
+'This is the improved version of Saving to a Text File, Please place this in your Code
+
+        F = FreeFile    'Assigns a Free File Number
+        FileName$ = "C:\..."    'Place the Filename here
+
+        'This is the improved bit
+        Open FileName$ For Input As #F
+                If LOF(F) > 0 Then
+                        MsgBox ("File Already Exists")
+                        Close #F
+                Else
+                        Close #F
+                        Open FileName$ For Output As #F
+                                Print #F, Txtinput.txt
+                        Close #F
+                End If
+
+
+
+'2.2	Other File Functions
+
+'There is more than just Opening and Saving a Text file, this will be shown in this chapter
+
+'***********************************************************
+'Easy Way of Copying a File
+'***********************************************************
+
+'Place this in your Code
+
+        Call FileCopy("C:\...", "C:\...")
+
+'The First File is the source file, the next file is the destination file
+
+'***********************************************************
+'Harder Way of Copying a File
+'***********************************************************
+
+'This file copying routine only works on Text file because it copys the strings in the file. There is no need for this due to the FileCopy routine, i just put it in to show that there is another way.
+
+'Place this in your Code
+
+        Fsource$ = "C:\..."     'Source File
+        FDest$ = "C:\..." 'Destination File
+
+        Open Fsource$ For Input As #1
+        Open FDest$ For Output As #2
+        Do While EOF(1)
+                Input #1, Fcopy$
+                Print #2, Fcopy$
+        Loop
+        Close #1
+        Close #2
+        
+
+
+'2.3	Cut, Copy and Paste Functions
+'In this chapter I will explain about how place and retrieve information from the clipboard.
+
+'***********************************************************
+'Cut text to the clipboard
+'***********************************************************
+'To remove text and place it into the clipboard, Place the following code into your program.
+'TextCut would be the name of the Rich Text Box.
+
+	Clipboard.SetText TxtCut.SelText
+	TxtCut.SelText = ""
+
+'***********************************************************
+'Copying text to the clipboard
+'***********************************************************
+'To place text into the clipboard but without removing it first from the text box, Place the following code into your program.
+'TxtCopy would be the name of the Rich Text Box.
+
+Clipboard.SetText TextCopy.SelText
+
+'***********************************************************
+'Copying text to the clipboard
+'***********************************************************
+'To place text into the clipboard but without removing it first from the text box, Place the following code into your program.
+'TxtPaste would be the name of the Rich Text Box
+
+TxtPaste.SelText = Clipboard.GetText()
+
+
+'3.1  Variables
+
+'This is a short chapter explaining a few things about variables. When writing code try and use intergers and doubles and little as possible and Longs and much as possible. This is because modern processers like P4 are design to process 32 bit variables much faster than 16 Bit Variables
+
+'3.2	Sorting
+
+'In this chapter I will be talking about sorting numbers, hopefully in the next version i will include text sorting. In the examples I create random numbers for the sorting function to work with. The examples are not well commented and i will try and correct this for the next version.
+
+'***********************************************************
+'Top Down Sort
+'***********************************************************
+
+'In the declarations please place this
+
+        Dim ANUM&(1 To 1000)    'Make this more Than MAXN&
+
+'Please Place this in your Code
+
+        MAXN& = 500     'No. of Numbers being sorted
+        I& = 1
+        
+        'Randomising Function
+         
+        While I& < MAXN&
+        ANUM&(I&) = Int(Rnd * t&) + 1
+                ANUM&(I& + 1) = Int(Rnd * t&) + 1
+                ANUM&(I& + 2) = Int(Rnd * t&) + 1
+                ANUM&(I& + 3) = Int(Rnd * t&) + 1
+                ANUM&(I& + 4) = Int(Rnd * t&) + 1
+                I& = I& + 5
+        Wend
+
+        'End of Randomising Function
+
+        For OUTLOOP& = 1 To MAXN& - 1 Step 1
+                LOWEST = ANUM&(OUTLOOP&)
+                LOWPLACE& = 0
+                For INLOOP& = OUTLOOP& + 1 To MAXN& Step 1
+                If ANUM&(INLOOP&) < LOWEST Then
+                        LOWEST = ANUM&(INLOOP&)
+                        LOWPLACE& = INLOOP&
+                        End If
+                Next INLOOP&
+                If LOWPLACE& <> 0 Then
+                        TEMP& = ANUM&(OUTLOOP&)
+                        ANUM&(OUTLOOP&) = ANUM&(LOWPLACE&)
+                        ANUM&(LOWPLACE&) = TEMP&
+                End If
+        Next OUTLOOP&
+
+'***********************************************************
+'Bubble Sort
+'***********************************************************
+
+'In the declarations please place this
+
+        Dim ANUM&(1 To 1000)    'Make this more Than MAXN&
+
+'Please Place this in your Code
+
+        
+        I& = 1
+        MAXN& = 500
+
+        'Randomising Function
+
+        While I& < MAXN&
+                ANUM&(I&) = Int(Rnd * t&) + 1
+                ANUM&(I& + 1) = Int(Rnd * t&) + 1
+                ANUM&(I& + 2) = Int(Rnd * t&) + 1
+                ANUM&(I& + 3) = Int(Rnd * t&) + 1
+                ANUM&(I& + 4) = Int(Rnd * t&) + 1
+                I& = I& + 5
+        Wend
+
+        'End of Randomising Function
+
+        While NOSWAPS& = 0
+                NOSWAPS& = 1
+                For I& = 1 To MAXN& - 1
+                If ANUM&(I&) > ANUM&(I& + 1) Then
+                        TEMP& = ANUM&(I&)
+                        ANUM&(I&) = ANUM&(I& + 1)
+                        ANUM&(I& + 1) = TEMP&
+                        NOSWAPS& = 0
+                        End If
+                Next I&
+        Wend
+
+'***********************************************************
+'Fast Sort
+'***********************************************************
+
+'This sort work differently to the other sorters, it puts the data into an array. This means that the data has to be whole numbers.
+
+'In the declarations please place this
+
+        Dim ANUM&(1 To 1000)    'Make this more Than MAXN&
+        Dim BNUM&(1 To 1000)    'Make this more Than MAXN&
+
+'Please Place this in your Code
+
+        I& = 1
+        MAXN& = 500
+
+        'Randomising Function
+
+        While I& < MAXN&
+        ANUM&(I&) = Int(Rnd * t&) + 1
+                ANUM&(I& + 1) = Int(Rnd * t&) + 1
+                ANUM&(I& + 2) = Int(Rnd * t&) + 1
+                ANUM&(I& + 3) = Int(Rnd * t&) + 1
+                ANUM&(I& + 4) = Int(Rnd * t&) + 1
+                I& = I& + 5
+        Wend
+
+        'End of Randomising Function
+
+        I& = 1
+        While I& < MAXN&
+        BNUM&(ANUM&(I&)) = BNUM&(ANUM&(I&)) + 1
+                BNUM&(ANUM&(I& + 1)) = BNUM&(ANUM&(I& + 1)) + 1
+                BNUM&(ANUM&(I& + 2)) = BNUM&(ANUM&(I& + 2)) + 1
+                BNUM&(ANUM&(I& + 3)) = BNUM&(ANUM&(I& + 3)) + 1
+                BNUM&(ANUM&(I& + 4)) = BNUM&(ANUM&(I& + 4)) + 1
+                I& = I& + 5
+        Wend
+        I& = 0
+        J% = 0
+        K% = 0
+        While I& < MAXN&
+        J% = 0
+                I& = I& + 1
+                While J% < BNUM&(I&) And BNUM&(I&) > 0
+                    J% = J% + 1
+                    K% = K% + 1
+                    ANUM&(K%) = I&
+                Wend
+        Wend
+
+
+        
+'3.3	Information on enryption
+
+'Encryption is an ever increasing importance in computer programming, this section will tell you the main types of encryption. These types of cipher could be included in your program;
+'The names that have a c in brackets (c) have been cracked or can be cracked
+
+
+'***********************************************************
+'Caeser-shift substitution cipher(c)
+'***********************************************************
+'Originally a cipher in which each letter in the message is replaced with the letter three places further on in the alphabet. More generally, it is a cipher in which each letter in the message is replaced with the letter x places further on in the alphabet, where x is a number between 1 and 25.
+
+'***********************************************************
+'Homophonic substitution cipher(c)
+'***********************************************************
+'A cipher in which there are serval potential subsitutions for each plaintext letter. Crucially if there are, say, six potential substitutions for the plaintext letter a, then these six characters can only represent the letter a. This is a type of monoalphabetic substitution cipher.
+
+'***********************************************************
+'Monoalphabetic substitution cipher(c)
+'***********************************************************
+'A substitution cipher in which the cipher alphabet is fixed throughout encryption
+
+'***********************************************************
+'One-Time pad
+'***********************************************************
+'The only known form of encryption that is unbreakable. It relies on a random key that is the same length as the message. Each key can be used once and once only.
+
+'***********************************************************
+'Polyalphabetic substitution cipher(c)
+'***********************************************************
+'A substitution cipher in which the cipher alphabet changes during the encryption, for example the Vignere cipher. The change is defined by a key.
+
+'***********************************************************
+'Substitution cipher(c)
+'***********************************************************
+'A system of encryptionin which each letter of a message is replaced with another character, but remains its position within the message.
+
+'***********************************************************
+'Transposition cipher(c)
+'***********************************************************
+'A system of encryption in which each letter of a message changes it position within the message, but retains its identity.
+
+
+
+'4.0	Ideas about registering
+
+'Registering software is a key part of shareware programming, this allows the program to unlock special functions when it is registered. This chapter tells ways that the program could be registered.
+
+'***********************************************************
+'Using encryption
+'***********************************************************
+'This works by sending your name off when registering, a unique code is generated by encrypting the Name. The program would check this by encrypting the name again and then comparing it with the one given.
+
+'***********************************************************
+'Having a built in key code
+'***********************************************************
+'This would work by the program having a built in Serial Number, once you register you would recieve a Serial number. The program will unlock the special functions only if the Serial number matchs that of which is in the program
+
+'***********************************************************
+'Random numbers
+'***********************************************************
+'This would work by the program generating random numbers, it would save these to a file. When registering the numbers would be sent, then the encrypted version of the numbers would be sent back, the program would check the numbers against the numbers in the file. This helps because if the program is installed on another computer the same serial number could not be used because the program would generate new random numbers.
+
+
+
+'5.0	Api Calls
+
+'Most beginners would not think that API calls were of a beginners level, but i have included them to help you
+
+'***********************************************************
+'How to Hide the cursor from view
+'***********************************************************
+'Place the following in the Declarations part of your code:
+
+        Declare Function ShowCursor& Lib "user32" (ByVal bShow As Long)
+    
+'The Parameter bShow is Set To True (non-zero) to display the cursor, change it to False to hide it
+
+'***********************************************************
+'How to swap the Mouse Buttons
+'***********************************************************
+'Place the following in the Declarations part of your code
+
+        Declare Function SwapMouseButton& Lib "user32" (ByVal bSwap As Long)
+
+'To swap the mouse buttons, call this Function With the variable bSwap = True. Set bSwap to False to restore normal operation.
+
+'***********************************************************
+'How to Change the position of the Mouse
+'***********************************************************
+'Place the following in the Declarations part of your code
+
+        Declare Function SetCursorPosition& Lib "user32" (ByVal x As Long, ByVal y As Long)
+
+'To change the position during the program, place this in your code and change 0,0 to your x , y Co-ordinates
+
+        Call SetCursorPosition(0, 0)
+
+
+'6.0	Next Update
+
+'If you would like anything added or changed in this version, please leave a comment and I will be glad to try...
